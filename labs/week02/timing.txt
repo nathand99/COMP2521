@@ -1,0 +1,125 @@
+Input	Initial	Has	    Number	 AvgTime	AvgTime
+Size	Order	Dups	of runs	 forusel	forsort
+
+5000	random	no	 	 10       0.328	     0.080     usel slower
+5000	sorted	no	 	 10       0.108      0.004     usel slower
+5000	reverse	no		 10	      0.010      0.009     usel similar to sort
+5000	random	yes		 10	      0.082      0.007     usel slower
+5000	sorted	yes		 10	      0.110      0.036     usel slower
+5000	reverse	yes		 10	      0.052      0.044     usel similar to sort
+10000	random	no		 10       0.191      0.020     usel slower
+10000	sorted	no		 10       0.256	     0.016     usel slower
+10000	reverse	no		 10       0.007      0.006     usel similar to sort
+10000	random	yes		 10       0.228	     0.012     usel slower
+10000	sorted	yes		 10       0.160      0.018     usel slower
+10000	reverse	yes		 10       0.011 	 0.010     usel similar to sort
+
+
+
+Conclusion: 
+A pattern is observed where in all cases where the data is in reverse order, usel's execution time is similar to the execution times of the unix sort program. This is due to how the usel program algorithm has been set up.
+
+This could be due to the time complexity of inserting at start of linked list being O(1) - Only checks the head node value which will always be larger than the inserted node value in a reverse data set so it is always inserting at the head.
+
+The time complexity of running through in a while loop to find the last node and inserting at the end of the node is O(n) - for sets in Sorted and random orders.
+
+Thus explaining the pattern where usel has similar average timings with the sort program in the reverse ordered data sets.
+
+Logs:
+
+(Test 1)
+5000	random	no	N	  run 1       0.28s	     0.04s
+5000	random	no	N	  run 1       0.32s	     0.08s
+5000	random	no	N	  run 1       0.28s	     0.08s
+5000	random	no	N	  run 1       0.64s	     0.08s
+5000	random	no	N	  run 1       0.28s	     0.04s
+5000	random	no	N	  run 1       0.28s	     0.08s
+5000	random	no	N	  run 1       0.36s	     0.08s
+5000	random	no	N	  run 1       0.28s	     0.12s
+5000	random	no	N	  run 1       0.28s	     0.08s
+5000	random	no	N	  run 1       0.28s	     0.12s
+
+FINAL:
+5000	random	no	 	 10       0.328	     0.080
+
+
+
+(Test 2)
+5000	sorted	no	 	 10       0.116	     0.008
+5000	sorted	no	 	 10       0.116	     0.004
+5000	sorted	no	 	 10       0.084	     0.008
+5000	sorted	no	 	 10       0.116	     0.004
+5000	sorted	no	 	 10       0.100	     0.004
+5000	sorted	no	 	 10       0.104	     0.004
+5000	sorted	no	 	 10       0.116	     0.000
+5000	sorted	no	 	 10       0.116	     0.012
+5000	sorted	no	 	 10       0.104	     0.000
+5000	sorted	no	 	 10       0.116	     0.004
+
+FINAL:
+5000	sorted	no	 	 10       0.108      0.004
+
+(Test 3)
+
+5000	reverse	no		 10	      0.008      0.008
+5000	reverse	no		 10	      0.012      0.008
+5000	reverse	no		 10	      0.012      0.008
+5000	reverse	no		 10	      0.012      0.012
+5000	reverse	no		 10	      0.012      0.012
+5000	reverse	no		 10	      0.012      0.008
+5000	reverse	no		 10	      0.004      0.008
+5000	reverse	no		 10	      0.012      0.008
+5000	reverse	no		 10	      0.008      0.012
+5000	reverse	no		 10	      0.012      0.012
+
+FINAL:
+5000	reverse	no		 10	      0.010      0.009
+(Test 4)
+
+5000	random	yes		 10	      0.088      0.004
+5000	random	yes		 10	      0.092      0.004
+5000	random	yes		 10	      0.072      0.012
+5000	random	yes		 10	      0.092      0.008
+5000	random	yes		 10	      0.084      0.012
+5000	random	yes		 10	      0.092      0.008
+5000	random	yes		 10	      0.076      0.012
+5000	random	yes		 10	      0.064      0.004
+5000	random	yes		 10	      0.084      0.000
+5000	random	yes		 10	      0.080      0.004
+
+FINAL:
+5000	random	yes		 10	      0.082      0.007
+
+(Test 5)
+
+5000	sorted	yes		 10	      0.112      0.004
+5000	sorted	yes		 10	      0.108      0.004
+5000	sorted	yes		 10	      0.116      0.000
+5000	sorted	yes		 10	      0.112      0.004
+5000	sorted	yes		 10	      0.100      0.008
+5000	sorted	yes		 10	      0.116      0.004
+5000	sorted	yes		 10	      0.116      0.004
+5000	sorted	yes		 10	      0.120      0.004
+5000	sorted	yes		 10	      0.128      0.004
+5000	sorted	yes		 10	      0.080      0.000
+
+FINAL:
+5000	sorted	yes		 10	      0.110      0.036
+
+(Test 6) 
+
+5000	reverse	yes		 10	      0.004      0.008
+5000	reverse	yes		 10	      0.004      0.004
+5000	reverse	yes		 10	      0.008      0.000
+5000	reverse	yes		 10	      0.004      0.004
+5000	reverse	yes		 10	      0.008      0.008
+5000	reverse	yes		 10	      0.012      0.004
+5000	reverse	yes		 10	      0.004      0.000
+5000	reverse	yes		 10	      0.004      0.004
+5000	reverse	yes		 10	      0.004      0.004
+5000	reverse	yes		 10	      0.000      0.008
+
+FINAL:
+5000	reverse	yes		 10	      0.052      0.044
+
+

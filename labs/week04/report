@@ -1,0 +1,241 @@
+COMP2521 Sort Detective Lab Report
+
+by Rason, Nathan
+
+In this lab, the aim is to measure the performance of two sorting programs, without access to the code, and determine which sort algorithm each program implements.
+
+Experimental Design
+
+There are two aspects to our analysis:
+
+determine that the sort programs are actually correct
+measure their performance over a range of inputs
+
+/////////////////////////////////////////////////////////////////////////////
+Typical properties to look for are execution time and output stability
+
+       Usage: gen  N  A|D|R  [S]
+       N = number of lines
+       A|D|R = Ascending|Descending|Random
+       S = seed for Random
+       
+       we can test each sorting algorithm with numbers generater in 
+       ascending/decending/random order with different amounts of numbers
+       up to 1000000 numbers
+       
+       with ./gen 100000 R 
+       sortA took 29.10 seconds (Average of 10 runs)ß
+       sortB look 0.10 seconds  (Average of 10 runs)
+       
+       we can see already that sortA is much slower than sortB with random numbers
+       
+       Correctness
+       To ensure that the sorting program's output is sorted, we checked that the 
+       output of the sorting algorithm on different inputs of data was sorted
+       
+       Performance analysis
+       During performance analysis we will use the gen command to generate different 
+       amounts of numbers in either ascending, decending or random to attempt to extract
+       any patterns or special features in the execution time of the two sorting
+       algorithms.
+       
+       Stability
+       Some Sorting Algorithms are stable by nature, such as Bubble Sort, Insertion Sort, 
+       Merge Sort, Count Sort etc.
+
+       Unstable Sorting Algorithms: Heap Sort, Selection sort, Shell sort, Quick Sort
+
+       possible algorithms it could be:
+       Oblivious Bubble Sort
+            unstable and unoptimised bubble sort
+       Bubble Sort With Early Exit
+            stable bubble sort that terminates when there have been no exchanges in one pass
+       Insertion Sort
+            standard insertion sort
+       Selection Sort
+            standard selection sort
+       Merge Sort
+            normal merge sort - always O(nlogn)
+       Vanilla Quick Sort
+            normal quick sort (pivot is the last element)
+       Quick Sort Median of Three
+             pivot is the median of first last and middle elements
+       Randomised Quick Sort
+            list is shuffled then vanilla quick-sorted
+       Shell Sort Powers of Two Four
+            shell sort with intervals ..., 4096, 1024, 256, 64, 16, 4, 1
+       Shell Sort Sedgewick (Sedgewick-like)
+            shell sort with intervals ..., 4193, 1073, 281, 23, 8, 1
+       Psuedo-Bogo Sort
+            choose two random array elements, if out-of-order then swap, repeat
+///////////////////////////////////////////////////////////////////////////
+Correctness Analysis
+
+To determine correctness, we tested each program on the following kinds of input ...
+
+
+1. 4,2,56,40,0,2,4,1,1,200,56 -> 0,1,1,2,2,4,4,40,56,56,200 (correct)
+
+2. 500,2,600,0  -> 0,2,500,600 (correct)
+
+3. 0, 0, 1 -> 0,0,1 (correct)
+
+4. 0,0,0,0 -> 0,0,0,0 (Correct)
+
+
+Procedure in checking sort was correct.
+# generate some data, put in a file called ""mydata"
+$ ./gen 100 R > mydata # Repeated with A, D, R type of data
+
+# count the number of lines in the data (should be 100)
+$ wc -l mydata
+
+# sort the data using sortA, put the result in "sortedA"
+$ ./sortA < mydata > sortedA
+
+# sort the data using sortB, put the result in "sortedB"
+$ ./sortA < mydata > sortedB
+
+# count the number of lines in "sortedA" (should also be 100)
+$ wc -l sortedA
+
+# sort the data using Unix sort
+$ sort -n < mydata > sorted
+
+# check that the sortA and sortB programs actaully sorted
+$ diff sorted sortedA   Correct Output Showed no diffs
+$ diff sorted sortedB   Correct Output Showed no diffs
+ 
+
+Performance Analysis
+
+In our performance analysis, we measured how each program's execution time varied as the size and initial sortedness of the input varied. We used the following kinds of input ...
+
+We will take the average of 10 runs for each of the following test cases.
+
+// need to do duplicates + non-duplicates for: asending, descending and random
+// 100 runs for each 
+
+Using our shell script, we ran the tests 100 times.
+
+1. Test1 (./gen 1000 A) 
+
+sortA: 0.00s
+sortB: 0.00s
+
+2. Test2 (./gen 1000 D)
+
+sortA: 0.01s
+sortB: 0.00s
+
+3. test3 (./gen 1000 R)
+
+sortA: 0.00s
+sortB: 0.00s
+
+4. test4 (./gen 10000 A)
+
+sortA: 0.01s
+sortB: 0.01s
+
+5. test5 (./gen 10000 D)
+
+sortA: 0.32, 0.36,0.32,0.30,0.32,0.32,0.30,0.32,0.32,0.33 - >Average: 0.321s
+sortB: 0.01,0.00,0.01,0.01,0.00,0.02,0.001,0.001,0.00,0.001 - > Average: 0.01s
+
+6. test6 (./gen 10000 R)
+
+sortA: 0.33,0.33,0.33,0.34,0.33,0.34,0.33,0.33,0.33,0.34 - > 0.33s
+sortB: 0.01,0.02,0.02,0.01,0.02,0.01,0.01,0.02,0.01,0.02 - > 0.015s
+
+7. test4 (./gen 100000 A)
+
+sortA: 0.07,0.07,0.05,0.08,0.08,0.06,0.06,0.07,0.08,0.06 -> 0.068s
+sortB: 0.08,0.07,0.10,0.13,0.08,0.05,0.08,0.11,0.10,0.07 -> 0.087s
+
+8. test5 (./gen 100000 D)
+
+sortA: 24.80,24.67,24.65,25.04,24.92,24.88,24.90,24.92,24.61 -> 22.33s
+sortB: 0.09,0.10,0.07,0.08,0.09,0.09,0.08,0.08,0.08,0.09 -> 0.085s
+
+9. test6 (./gen 100000 R)
+
+sortA: 34.54,34.92,34.36,34.43,34.48,34.36,34.58,34.84,34.52,34.46 -> 34.55
+sortB: 0.19,0.16,0.15,0.18,0.17,0.16,0.14,0.15,0.17,0.17 -> 0.164
+
+
+We used these test cases because ...
+
+Because of the way timing works on Unix/Linux, it was necessary to repeat the same test multiple times ...
+
+We were able to use up to quite large test cases without storage overhead because (a) we had a data generator that could generate consistent inputs to be used for multiple test runs, (b) we had already demonstrated that the program worked correctly, so there was no need to check the output.
+
+We also investigated the stability of the sorting programs .... 
+    using a data set of 23 numbers with 6 numbers as the same number (22) and tags
+    containing random letters after numbers to determine order. 
+    This test was done 6 times with identical output. 
+    mydata3 -> sortA -> sortedA3
+    ./sortA < mydata3 > sortedA3
+    
+    mydata3 -> sortB -> sortedB3
+    ./sortB < mydata3 > sortedB3
+    
+    This is also demonstrated using mydata2 -> sortedA2 
+                                            -> sortedB2
+                                         
+    And also mydata4 -> sortedA4
+                     -> sortedB4
+    which ill write about later                                      
+1. 
+
+
+2. 
+
+
+3. 
+
+Results
+
+Using sortA, The order of the lines with the same number remained the same sortA is 
+stable 
+Using sortB, The order of the lines with the same number was changed, therefore 
+sortB is not stable
+
+
+We also investigated ... any other relevant properties ...
+
+Experimental Results
+
+Correctness Experiments
+
+An example of a test case and the results of that test is ...
+
+4,2,56,40,0,2,4,1,1,200,56 -> 0,1,1,2,2,4,4,40,56,56,200 (correct)
+
+Performance Experiments
+
+For Program A, we observed that ...
+
+These observations indicate that the algorithm underlying the program ... has the following characteristics ...
+
+1. Program A is Stable
+2. Possible: Merge, Insertion, Bubble
+3. 
+
+For Program B, we observed that ...
+
+These observations indicate that the algorithm underlying the program ... has the following characteristics ...
+
+1.Program B is NOT Stable
+2. Possible: QuickSort, HeapSort, ShellSort
+3. 
+
+Conclusions
+
+On the basis of our experiments and our analysis above, we believe that
+
+ProgramA implements the uvw sorting algorithm
+ProgramB implements the xyz sorting algorithm
+Appendix
+
+Any large tables of data that you want to present ...
